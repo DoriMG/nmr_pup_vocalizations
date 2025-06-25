@@ -2,8 +2,8 @@ library(ggplot2)
 library(patchwork)
 library(ggmap)
 
-folder = "\\\\gpfs.corp.brain.mpg.de\\bark\\data\\1_projects\\pup_paper\\code\\paper_code\\fig1\\data"
-out_folder = "\\\\gpfs.corp.brain.mpg.de\\bark\\data\\1_projects\\pup_paper\\code\\paper_code\\fig1\\figs"
+folder = "data"
+out_folder = "figs"
 
 ### Fig 1C-F - features ##
 data_file = file.path(folder, "call_features.csv")

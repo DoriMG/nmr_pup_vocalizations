@@ -42,7 +42,6 @@ def clean_call_types(all_calls):
 
 data_folder = r'..\metadata'
 out_folder = r'data'
-recalc = 0
 
 # Load the dataset output by extract_spectrograms
 all_calls = pd.read_csv(os.path.join(data_folder, 'call_dataset.csv'))
