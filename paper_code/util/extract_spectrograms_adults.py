@@ -162,7 +162,7 @@ samplerate = 22050
 all_calls = compute_all_features(all_calls, samplerate, n_fft = 256, preload=0)
 
 # Add column to determine whether it was a recording in the no-touch condition
-all_calls['isolate'] = 'True'
+all_calls['isolate'] = False
 all_calls = clean_call_types(all_calls)
 
 # Save out the features
