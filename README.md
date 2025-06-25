@@ -9,3 +9,7 @@
 - From: Jack Goffinet, Samuel Brudner, Richard Mooney, John Pearson (2021) Low-dimensional learned feature spaces quantify individual and group differences in vocal repertoires eLife 10:e67855
 - Original code: https://github.com/pearsonlab/autoencoded-vocal-analysis
 - Run run_vae from util folder to train and extract latent means
+
+# Soft chirp analysis
+- Extract the adult calls using util/extract_spectrograms_adult.py
+- This will extract spectrograms, do the feature extraction, and extract latent means using the pre-trained VAE
