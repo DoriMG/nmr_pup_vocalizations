@@ -51,7 +51,7 @@ def plot_cluster_results(clusters, data):
 data_folder = r'..\metadata'
 out_folder = r'data'
 
-all_calls = pd.read_csv(os.path.join(data_folder, 'vae_features_dataset_v3.csv'))
+all_calls = pd.read_csv(os.path.join(data_folder, 'vae_features_dataset.csv'))
 all_calls = clean_call_types(all_calls)
 
 # Include only no-touch recordings
@@ -233,7 +233,7 @@ sil_df['min_cluster'] = min_cluster_size[sil_df['min_cluster'].values]
 sil_df.to_csv(os.path.join(out_folder, 'sil_scores.csv'), index=False)
 
 
-############### Fig S5 cluster usage ####################
+############### Fig S5 D-F cluster usage ####################
 sound_types = all_calls_temp['clusters'].unique()
 pup_id = all_calls_temp['animal_id'].unique()
 timepoints  = all_calls_temp['timepoint'].unique()
