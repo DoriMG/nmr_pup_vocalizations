@@ -1,10 +1,11 @@
 library(ggplot2)
 library(patchwork)
 
-folder = "\\\\gpfs.corp.brain.mpg.de\\bark\\data\\1_projects\\pup_paper\\code\\paper_code\\fig2\\data"
-out_folder = "\\\\gpfs.corp.brain.mpg.de\\bark\\data\\1_projects\\pup_paper\\code\\paper_code\\fig2\\figs"
 
+folder = "data"
+out_folder = "figs"
 
+######## Fig 2A - Call type UMAP #######
 data_file = file.path(folder, "umap_embedding.csv")
 df <- read.csv(data_file, header=TRUE, stringsAsFactors=TRUE)
 
@@ -15,10 +16,7 @@ umap_ct = ggplot(data=df, aes(x=umap_1, y=umap_2, col = call_type )) +
   theme_void()
 umap_ct
 
-ggsave(file.path(out_folder,'umap_ct.png'),umap_ct, width = 12, height =10)
-
-
-
+######## Fig 2C - HDBSCAN clusters #######
 data_file = file.path(folder, "hdbscan_clusters.csv")
 df <- read.csv(data_file, header=TRUE, stringsAsFactors=TRUE)
 df$clusters = df$clusters+1
@@ -29,17 +27,9 @@ umap_clust = ggplot(data=df, aes(x=umap_1, y=umap_2, col = factor(clusters) )) +
   theme_void()
 umap_clust
 
-##
+######## Fig 2D Cluster membership #######
 data_file = file.path(folder, "clust_vs_call_type.csv")
 df <- read.csv(data_file, header=TRUE, stringsAsFactors=TRUE)
-
-clust_membership = ggplot(df, aes(fill=call_type, y=data, x=factor(cluster))) + 
-  geom_bar(position="fill", stat="identity")+
-  labs(y ='Call type membership', x='Cluster', fill = 'Call type')+
-  scale_fill_brewer(palette="Set2")+
-  theme_classic()
-clust_membership
-
 
 call_type_membership = ggplot(df, aes(x=call_type, y=data, fill=factor(cluster))) + 
   geom_bar(position="fill", stat="identity")+
@@ -48,7 +38,7 @@ call_type_membership = ggplot(df, aes(x=call_type, y=data, fill=factor(cluster))
   theme_classic()
 call_type_membership
 
-## Cluster properties
+######## Fig 2E-F Cluster features #######
 data_file = file.path(folder, "hdbscan_clusters.csv")
 df <- read.csv(data_file, header=TRUE, stringsAsFactors=TRUE)
 df$clusters = df$clusters+1
@@ -67,11 +57,9 @@ cluster_voiced =  ggplot(data=df, aes(x=factor(clusters)  , y=voiced_perc, fill=
   labs(y ='Voiced ratio', x='Cluster')+theme_classic()
 cluster_voiced
 
-
+######## Fig 2G Typicality analysis #######
 data_file = file.path(folder, "membership_by_ct.csv")
 df <- read.csv(data_file, header=TRUE, stringsAsFactors=TRUE)
-
-
 ct_typicality = ggplot(df, aes(x=call_type, y=typicality, fill = call_type)) + 
   geom_boxplot(outlier.colour="black", outlier.shape=16,
                outlier.size=2, notch=FALSE)+
@@ -79,57 +67,23 @@ ct_typicality = ggplot(df, aes(x=call_type, y=typicality, fill = call_type)) +
   labs(y='Typicality coefficient', x='Call type')+ theme_classic()
 ct_typicality
 
+# ANOVA
 res.aov <- aov(typicality ~ call_type, data = df)
-# Summary of the analysis
 summary(res.aov)
 
-# Combo membership
-data_file = file.path(folder, "combo_membership.csv")
-df <- read.csv(data_file, header=TRUE, stringsAsFactors=TRUE)
-df=df[df$timepoint <65,]
 
-data_mod <- cbind(df[1:5], stack(df[6:7])) 
-
-
-combo_mem = ggplot(data=data_mod, aes(x=timepoint , y=values, col=ind)) +
-  geom_point()+
-  geom_smooth()+
-  facet_wrap(~colony)+
-  labs(y ='Typicality', x='Days postnatal', col='Cluster', fill='Cluster')+theme_classic()
-combo_mem
-
-# phee membership
-data_file = file.path(folder, "phee_membership.csv")
-df <- read.csv(data_file, header=TRUE, stringsAsFactors=TRUE)
-df=df[df$timepoint <65,]
-
-data_mod <- cbind(df[1:5], stack(df[6:7])) 
-
-
-ph_mem = ggplot(data=data_mod, aes(x=timepoint , y=values, col=ind)) +
-  geom_point()+
-  geom_smooth()+
-  facet_wrap(~colony)+
-  labs(y ='Typicality', x='Days postnatal', col='Cluster', fill='Cluster')+theme_classic()
-ph_mem
-
+############## Create figure 2 ##########
 layout <- "
 AAAABBBB
 AAAABBBB
 CCCCDDEE
 CCCCFFGG
-#HHHIII#
 
 "
 all_plots =  plot_spacer()+umap_ct+ umap_clust+
   call_type_membership+cluster_duration+cluster_voiced+
-  ct_typicality+combo_mem+ph_mem+
+  ct_typicality
   plot_layout(design = layout, guides = "collect")+  plot_annotation(tag_levels = 'A')
-
-all_plots = (random_forest|umap_ct|umap_clust)/
-  (call_type_membership|cluster_duration|cluster_voiced)/
-  (ct_typicality|combo_mem+plot_layout(widths = c(1, 2)))+ plot_layout(guides = "collect")+
-  plot_annotation(tag_levels = 'A')
 all_plots
-ggsave(file.path(out_folder,'fig2_call_types_v3.png'),all_plots, width = 24, height =24)
-ggsave(file.path(out_folder,'fig2_call_types_v3.pdf'),all_plots, width = 24, height =24)
+ggsave(file.path(out_folder,'fig2_call_types.png'),all_plots, width = 24, height =20)
+ggsave(file.path(out_folder,'fig2_call_types.pdf'),all_plots, width = 24, height =20)
