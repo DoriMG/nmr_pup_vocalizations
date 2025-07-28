@@ -6,8 +6,12 @@ import os
 import pandas as pd
 import numpy as np
 
+data_folder = os.path.join(os.path.dirname(os.getcwd()), 'metadata')
+out_folder = os.path.join(os.getcwd(), 'data')
+
+
 ## Preprocess weights
-df = pd.read_csv(r'..\metadata\all_weights_combined.csv', sep='\t', encoding='utf-16')
+df = pd.read_csv(os.path.join(data_folder, 'all_weights_combined.csv'), sep='\t', encoding='utf-16')
 
 boffin1_ids = ['0278', '0279', '0280', '0281', '0282', '0283', '0284', '0285']
 lannister_ids = ['0321', '0322', '0323', '0324', '0325', '0326', '0327', '0328']
@@ -42,17 +46,17 @@ for _, row in df.iterrows():
 df_weights = pd.DataFrame(df_weights, columns=['AnimalID', 'DateMeasured', 'Weight', 'Colony'])
 df_weights.reset_index(inplace=True, names='WeightID')
 
-df_weights.to_csv(r'data\all_weights.csv')
+df_weights.to_csv(os.path.join(out_folder,'all_weights.csv'))
 
 
 ###### Figure 4B-C######################
 
 # load lannister ID translation - to fix difference between pup and adult ID numbers
-lan_id= pd.read_csv(r'..\metadata\lannister_id.csv', sep='\t', encoding='utf-16')
+lan_id= pd.read_csv(os.path.join(data_folder, 'lannister_id.csv'), sep='\t', encoding='utf-16')
 
 
 ## Load occurence from fig 1
-call_occurence = pd.read_csv(r'..\fig1\data\call_occurence_by_animal.csv', sep=',', encoding='utf-8')
+call_occurence = pd.read_csv(os.path.join(os.path.dirname(os.getcwd()), r'fig1\data\call_occurence_by_animal.csv'), sep=',', encoding='utf-8')
 
 ## Include only soft chirps
 sc_occurence = call_occurence[call_occurence['vocal_type']=='sc']
@@ -70,6 +74,6 @@ for index,row in sc_occurence.iterrows():
         weight = corr_weight['Weight'].values[0]
         sc_occurence.loc[index,'weight']=weight
 
-sc_occurence.to_csv(r'data\sc_occ.csv')
+sc_occurence.to_csv(os.path.join(out_folder,'sc_occ.csv'))
 
 

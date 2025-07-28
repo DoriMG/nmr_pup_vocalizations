@@ -43,7 +43,7 @@ litter_distance = ggplot(data=df, aes(x=timepoint , y=distance, col=colony)) +
 litter_distance
 
 ### Output figure
-all_plots = ((umap_id|(dist_time/litter_distance))) plot_layout(guides = "collect")+
+all_plots = ((umap_id|(dist_time/litter_distance))) +plot_layout(guides = "collect")+
   plot_annotation(tag_levels = 'A')
 all_plots
 ggsave(file.path(out_folder,'fig3_soft_chirps.png'),all_plots, width = 12, height =12)

@@ -32,8 +32,8 @@ def fix_ID(all_calls):
     return all_calls
 
 
-data_folder = r'..\metadata'
-out_folder = r'data'
+data_folder = os.path.join(os.path.dirname(os.getcwd()), 'metadata')
+out_folder = os.path.join(os.getcwd(), 'data')
 
 adult_calls = pd.read_csv(os.path.join(data_folder,  'vae_features_adults.csv'))
 pup_calls =  pd.read_csv(os.path.join(data_folder, 'vae_features_dataset.csv'))

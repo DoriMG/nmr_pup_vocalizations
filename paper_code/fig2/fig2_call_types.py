@@ -48,8 +48,8 @@ def plot_cluster_results(clusters, data):
     return hm_result, classes
 
 
-data_folder = r'..\metadata'
-out_folder = r'data'
+data_folder = os.path.join(os.path.dirname(os.getcwd()), 'metadata')
+out_folder = os.path.join(os.getcwd(), 'data')
 
 all_calls = pd.read_csv(os.path.join(data_folder, 'vae_features_dataset.csv'))
 all_calls = clean_call_types(all_calls)

@@ -128,6 +128,6 @@ all_calls = pd.concat(all_calls_list, ignore_index=True)
 all_calls = clean_call_types(all_calls)
 
 # Save out
-out_folder = r'..\\metadata'
+out_folder = os.path.join(os.path.dirname(os.getcwd()), 'metadata')
 all_calls.to_csv(os.path.join(out_folder, 'call_dataset.csv'))
 

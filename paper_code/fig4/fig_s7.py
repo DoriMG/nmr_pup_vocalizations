@@ -7,9 +7,12 @@ import os
 import pandas as pd
 import numpy as np
 
+data_folder = os.path.join(os.path.dirname(os.getcwd()), 'metadata')
+out_folder = os.path.join(os.getcwd(), 'data')
 
 ## Load and preprocess Boffin 2 weights
-df =  pd.read_csv(r'..\metadata\boffin_2_weights.csv', sep='\t', encoding='utf-16')
+
+df =  pd.read_csv(os.path.join(data_folder, 'boffin_2_weights.csv'), sep='\t', encoding='utf-16')
 
 weight_cols = [col for col in df.columns if 'Weight' in col]
 date_cols = [col for col in df.columns if 'Date' in col]
@@ -35,7 +38,7 @@ df_weights.reset_index(inplace=True, names='WeightID')
 n_weights = len(df_weights)
 
 ## Load and Boffin 2 lengths
-len_df = pd.read_csv(r'..\metadata\lengths_boffin2.csv')
+len_df = pd.read_csv(os.path.join(data_folder, 'lengths_boffin2.csv'))
 len_df['pup ID'] = len_df['pup ID'].astype(str)
 
 
@@ -51,4 +54,4 @@ for idx, row in len_df.iterrows():
 len_df['potbelly'] = len_df['belly_width']/len_df['body_length']
 len_df['rel_head'] = len_df['head_width']/len_df['body_length']
 
-len_df.to_csv('data\body_development.csv')
+len_df.to_csv(os.path.join(out_folder, 'body_development.csv'))

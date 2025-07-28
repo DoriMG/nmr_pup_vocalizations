@@ -8,7 +8,7 @@ import pandas as pd
 import numpy as np
 
 # Custom functions import
-sys.path.append(r'../util')
+sys.path.append(os.path.join(os.path.dirname(os.getcwd()), 'util'))
 from feature_extraction import compute_all_features
 
 def convert_to_R(data, columns):
@@ -40,8 +40,8 @@ def clean_call_types(all_calls):
     all_calls['call_type'] = all_calls['call_type'].replace('?', 'other')
     return all_calls
 
-data_folder = r'..\metadata'
-out_folder = r'data'
+data_folder = os.path.join(os.path.dirname(os.getcwd()), 'metadata')
+out_folder = os.path.join(os.getcwd(), 'data')
 
 # Load the dataset output by extract_spectrograms
 all_calls = pd.read_csv(os.path.join(data_folder, 'call_dataset.csv'))
